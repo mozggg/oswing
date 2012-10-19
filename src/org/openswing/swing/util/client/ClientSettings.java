@@ -237,10 +237,10 @@ public class ClientSettings {
   public static int MAX_EXPORTABLE_ROWS = 10000;
 
   /** adapter used when exporting grid data in PDF format: it provides some overridable methods */
-  public static ExportToPDFCallbacks EXPORT_TO_PDF_ADAPTER = new ExportToPDFCallbacks14Impl();
+  public static ExportToPDFCallbacks EXPORT_TO_PDF_ADAPTER = new ExportToPDFCallbacks15Impl();
 
   /** adapter used when exporting grid data in RTF format: it provides some overridable methods */
-  public static ExportToRTFCallbacks EXPORT_TO_RTF_ADAPTER = new ExportToRTFCallbacks14Impl();
+  public static ExportToRTFCallbacks EXPORT_TO_RTF_ADAPTER = new ExportToRTFCallbacks15Impl();
 
   /** flag used to add a filter panel on top of the exported grid, in order to show filtering conditions; this pane is visibile only whether there is at least one filtering condition applied; default value: <code>false</code> */
   public static boolean SHOW_FILTERING_CONDITIONS_IN_EXPORT = false;

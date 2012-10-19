@@ -27,6 +27,7 @@
 				<fileset dir="${lib}" includes="**/*.jar" />
 			</classpath>
 			<src path="${src}" />
+			<src path="src15" />
 		</javac>
 	</target>
 
@@ -48,7 +49,7 @@
 			</fileset>
 			
 			<!-- Include images folder -->
-			<fileset dir="${images}/.." includes="${images}/**" excludes="**/Thumbs.db" />
+			<fileset dir="${images}/.." includes="images/**" excludes="**/Thumbs.db" />
 		</jar>
 		
 		<copy todir="${lib}">
