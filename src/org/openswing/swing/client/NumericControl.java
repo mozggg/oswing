@@ -656,6 +656,13 @@ public class NumericControl extends BaseInputControl implements InputControl {
     numBox.select(selectionStart,selectionEnd);
   }
 
+  /**
+   * Selects all text
+   */ 
+  public final void selectAll() {
+    numBox.select(0, numBox.getText().length());
+  }
+
 
 }
 

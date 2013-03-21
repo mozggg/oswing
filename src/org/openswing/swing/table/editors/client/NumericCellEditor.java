@@ -173,7 +173,7 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
     if(value!=null && value.getClass().getSuperclass() == Number.class) {
       field.setText(((Number)value).toString());
       if (selectDataOnEdit)
-        field.select(0,field.getText().length());
+        field.selectAll();
     }
     else
       field.setText(null);
