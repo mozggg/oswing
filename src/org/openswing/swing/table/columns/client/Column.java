@@ -174,7 +174,7 @@ public class Column extends JPanel {
     colRow.setPreferredSize(new Dimension(preferredWidth, ClientSettings.CELL_HEIGHT));
     colHeader.setPreferredSize(new Dimension(preferredWidth, ClientSettings.HEADER_HEIGHT));
     colHeader.setText(columnName);
-    colHeader.setBorder(BorderFactory.createRaisedBevelBorder());
+    colHeader.setBorder(ClientSettings.GRID_COL_HEADER_BORDER);
     this.add(colHeader,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
             ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
     this.add(colRow,     new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0

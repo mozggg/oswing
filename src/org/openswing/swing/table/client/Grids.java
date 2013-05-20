@@ -1682,7 +1682,16 @@ public class Grids extends JPanel implements VOListTableModelListener,DataContro
         grid.getTableHeader().repaint();
       if (lockedGrid!=null && lockedGrid.getTableHeader()!=null)
         lockedGrid.getTableHeader().repaint();
-      reloadData();
+
+      if (gridControl!=null &&
+          !gridControl.isOrderWithLoadData() &&
+          getLastIndex()-getVOListTableModel().getRowCount()<=0 &&
+          !isMoreRows() &&
+          getQuickFilterValues().size()==0
+      )
+        grid.internalSorting();
+      else
+        reloadData();
     }
   }
 

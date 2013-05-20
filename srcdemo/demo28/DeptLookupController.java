@@ -201,6 +201,9 @@ public class DeptLookupController extends LookupController {
     this.setVisibleColumn("address",false);
     this.setVisibleColumn("status",false);
     this.setPreferredWidthColumn("description", 200);
+
+    this.setColumnsPosition(new String[]{"deptCode","description"});
+
   }
 
 

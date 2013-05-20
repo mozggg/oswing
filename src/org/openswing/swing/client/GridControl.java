@@ -1440,6 +1440,14 @@ public class GridControl extends JPanel {
 
 
   /**
+   * @return status panel
+   */
+  public final GridStatusPanel getStatusPanel() {
+    return labelPanel;
+  }
+
+
+  /**
    * @return grid data model
    */
   public final VOListTableModel getVOListTableModel() {
@@ -2750,8 +2758,21 @@ public class GridControl extends JPanel {
       table.getCurrentSortedColumns().addAll(profile.getCurrentSortedColumns());
       table.getCurrentSortedVersusColumns().clear();
       table.getCurrentSortedVersusColumns().addAll(profile.getCurrentSortedVersusColumns());
-      table.getQuickFilterValues().clear();
 
+      String attrName = null;
+      for(int j=0;j<profile.getCurrentSortedColumns().size();j++) {
+        attrName = profile.getCurrentSortedColumns().get(j).toString();
+        for (int i = 0; i < columnProperties.length; i++) {
+          if (columnProperties[i].getColumnName().equals(attrName)) {
+            columnProperties[i].setSortingOrder(j + 1);
+            columnProperties[i].setSortVersus(profile.getCurrentSortedVersusColumns().get(j).toString());
+            break;
+          }
+        }
+      }
+
+
+      table.getQuickFilterValues().clear();
       for (int i = 0; i < columnProperties.length; i++) {
         if (columnProperties[i].getDefaultFilterValues()!=null)
           table.getQuickFilterValues().put(

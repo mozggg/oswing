@@ -93,7 +93,7 @@ public class GenericButton extends JButton {
   private void init(Icon imageIcon) {
     if (buttonBehavior==Consts.BUTTON_IMAGE_ONLY) {
       super.setIcon(imageIcon);
-      setPreferredSize(new Dimension(32,32));
+      setPreferredSize(new Dimension(ClientSettings.BUTTON_HEIGHT,ClientSettings.BUTTON_HEIGHT));
     }
     else {
      boolean defaultButton = true;
@@ -130,7 +130,7 @@ public class GenericButton extends JButton {
 
       w += this.getMargin().left+this.getMargin().right+6;
       if (buttonBehavior==Consts.BUTTON_TEXT_ONLY) {
-        setPreferredSize(new Dimension(w,32));
+        setPreferredSize(new Dimension(w,ClientSettings.BUTTON_HEIGHT));
       }
       else {
 //        setHorizontalTextPosition(CENTER);
@@ -138,11 +138,11 @@ public class GenericButton extends JButton {
         super.setIcon(imageIcon);
 
         if (getHorizontalTextPosition() == SwingConstants.LEADING || getHorizontalTextPosition() == SwingConstants.TRAILING) {
-          setPreferredSize(new Dimension(w+32, 32));
+          setPreferredSize(new Dimension(w+ClientSettings.BUTTON_HEIGHT, ClientSettings.BUTTON_HEIGHT));
         } else if (getVerticalTextPosition() == SwingConstants.BOTTOM || getVerticalTextPosition() == SwingConstants.TOP) {
           setPreferredSize(new Dimension(
             w,
-            this.getFontMetrics(this.getFont()).getHeight() + this.getMargin().top + this.getMargin().bottom + 32)
+            this.getFontMetrics(this.getFont()).getHeight() + this.getMargin().top + this.getMargin().bottom + ClientSettings.BUTTON_HEIGHT)
           );
         }
       }

@@ -668,6 +668,15 @@ public class TreePanel extends JPanel implements DragSourceListener, DropTargetL
 
 
   /**
+   * Remove all menu items from the popup menu.
+   */
+  public final void removeAllPopupItems() {
+    popup.removeAll();
+    menuItems.clear();
+  }
+
+
+  /**
    * Add a pop-up menu item.
    * @param menuName menu item description (not yet translated)
    * @param mnemonic mnemonic value

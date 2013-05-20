@@ -592,6 +592,51 @@ public class Grid extends JTable
         // add key listener to capture the ENTER pressed event in the selected row...
         this.addKeyListener(gridListener);
 
+        this.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
+          /**
+           * columnMarginChanged
+           *
+           * @param e ChangeEvent
+           */
+          public void columnMarginChanged(ChangeEvent e) {
+            if (Grid.this.grids.getMode()!=Consts.READONLY)
+              if (Grid.this.getCellEditor()!=null)
+                Grid.this.getCellEditor().stopCellEditing();
+          }
+
+          /**
+           * columnSelectionChanged
+           *
+           * @param e ListSelectionEvent
+           */
+          public void columnSelectionChanged(ListSelectionEvent e) {
+          }
+
+          /**
+           * columnAdded
+           *
+           * @param e TableColumnModelEvent
+           */
+          public void columnAdded(TableColumnModelEvent e) {
+          }
+
+          /**
+           * columnMoved
+           *
+           * @param e TableColumnModelEvent
+           */
+          public void columnMoved(TableColumnModelEvent e) {
+          }
+
+          /**
+           * columnRemoved
+           *
+           * @param e TableColumnModelEvent
+           */
+          public void columnRemoved(TableColumnModelEvent e) {
+          }
+        });
+
       } // end if on gridType==MAIN_GRID...
 
 
@@ -1364,7 +1409,8 @@ public class Grid extends JTable
     this.repaint();
     if (grids.getLockedGrid()!=null)
       grids.getLockedGrid().repaint();
-    orderPolicy.afterSorting(model);
+    if (orderPolicy!=null)
+      orderPolicy.afterSorting(model);
   }
 
 
@@ -2224,7 +2270,9 @@ public class Grid extends JTable
 //    System.out.println(lockedGrid+" "+selRow);
     java.awt.Rectangle r = getCellRect(this.getSelectedRow(),this.getSelectedColumn()==-1?0:this.getSelectedColumn(), true);
     java.awt.Rectangle gr = this.getVisibleRect();
-    if (gr.getY()+gr.getHeight()<r.getY()) // if used to avoid scrolling of grid for an "internal" selected row
+    if (gr.getY()+gr.getHeight()<r.getY() ||
+        gr.getY()+gr.getHeight()<r.getY()+r.getHeight() ||
+        r.getY()<gr.getY()) // if used to avoid scrolling of grid for an "internal" selected row
       scrollRectToVisible(r);
     if (!lockedGrid && grids.getLockedGrid()!=null) {
         grids.getLockedGrid().ensureRowIsVisible(selRow);

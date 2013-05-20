@@ -35,6 +35,7 @@ public class GridFrame extends JFrame {
   NavigatorBar navigatorBar1 = new NavigatorBar();
   ExportButton exportButton1 = new ExportButton();
   SaveButton saveButton1 = new SaveButton();
+  FilterButton filterButton = new FilterButton();
 
 
   public GridFrame(Connection conn,GridFrameController controller) {
@@ -67,6 +68,7 @@ public class GridFrame extends JFrame {
     grid.setDefaultQuickFilterCriteria(org.openswing.swing.util.java.Consts.CONTAINS);
     grid.setDeleteButton(deleteButton);
     grid.setEditButton(editButton);
+    grid.setFilterButton(filterButton);
     grid.setExportButton(exportButton1);
     grid.setFunctionId("F1");
     grid.setInsertButton(insertButton);
@@ -103,6 +105,7 @@ public class GridFrame extends JFrame {
     buttonsPanel.add(reloadButton, null);
     buttonsPanel.add(saveButton1, null);
     buttonsPanel.add(deleteButton, null);
+    buttonsPanel.add(filterButton,null);
     buttonsPanel.add(navigatorBar1, null);
     buttonsPanel.add(exportButton1, null);
     grid.getColumnContainer().add(colProdId, null);

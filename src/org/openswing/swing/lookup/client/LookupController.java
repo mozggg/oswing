@@ -1390,6 +1390,38 @@ public class LookupController {
   }
 
 
+
+  /**
+    * Set the columns position in the grid, from left to right, by specifying the attributes.
+    * @param lookupAttributeNames attribute names that identifies all the columns, from left to right
+    */
+   public final void setColumnsPosition(String[] lookupAttributeNames) {
+     Column[] cols = new Column[colProperties.length];
+     HashMap indexes = new HashMap(); // <attr name,index in colProperties>
+     for(int j=0;j<lookupAttributeNames.length;j++) {
+       for(int i=0;i<colProperties.length;i++)
+         if (colProperties[i].getColumnName().equals(lookupAttributeNames[j])) {
+           cols[j] = colProperties[i];
+           indexes.put(lookupAttributeNames[j],new Integer(i));
+           break;
+         }
+     }
+
+     Integer pos = null;
+     int k = lookupAttributeNames.length;
+     for(int i=0;i<colProperties.length;i++) {
+       pos = (Integer)indexes.get(colProperties[i].getColumnName());
+       if (pos==null) {
+         cols[k] = colProperties[i];
+         k++;
+       }
+     }
+
+     colProperties = cols;
+   }
+
+
+
   /**
    * Set maximum number of sorted columns.
    * @param maxSortedColumns maximum number of sorted columns

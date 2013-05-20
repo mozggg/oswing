@@ -209,6 +209,9 @@ public class ClientSettings {
   /** image name of descending order versus icon */
   public static String SORT_DOWN = "sortdown.gif";
 
+  /** optional border to use in column headers of a grid; default value: BorderFactory.createRaisedBevelBorder(), i.e. an header like a button */
+  public static Border GRID_COL_HEADER_BORDER = BorderFactory.createRaisedBevelBorder();
+
   /** image name of filter button in column header */
   public static String LIST_FILTER_BUTTON = "filterbutton.gif";
 
@@ -361,6 +364,9 @@ public class ClientSettings {
 
   /** shortcut key used to open lookup controller frame in lookup control and lookup column; default value: KeyEvent.VK_F2 */
   public static KeyStroke LOOKUP_CONTROLLER_KEY = KeyStroke.getKeyStroke(KeyEvent.VK_F2,0);
+
+  /** height of a GenericButton and its subclasses (toolbar buttons, such as Insertbutton, etc.); default value: 32 */
+  public static int BUTTON_HEIGHT = 32;
 
   /** shortcut key used for insert button, within a form or a grid control; default value: KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_MASK) */
   public static KeyStroke INSERT_BUTTON_KEY = KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_MASK);
