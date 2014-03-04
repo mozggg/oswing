@@ -334,6 +334,7 @@ public class SpinnerListColumn extends Column {
       SpinnerListCellEditor editor = (SpinnerListCellEditor)editors.get(tableContainer.toString());
       if (editor==null) {
         editor = new SpinnerListCellEditor(
+            grids,
             isColumnRequired(),
             getTextAlignment(),
             getChangeListeners(),

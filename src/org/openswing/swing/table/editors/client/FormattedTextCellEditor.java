@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.*;
 import org.openswing.swing.table.columns.client.FormattedTextColumn;
+import org.openswing.swing.table.client.Grids;
 
 /**
  * <p>Title: OpenSwing Framework</p>
@@ -43,6 +44,9 @@ import org.openswing.swing.table.columns.client.FormattedTextColumn;
  */
 public class FormattedTextCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+  /** table hook */
+  private Grids grids = null;
+
   /** text input field */
   private JFormattedTextField field;
 
@@ -62,7 +66,7 @@ public class FormattedTextCellEditor extends AbstractCellEditor implements Table
   /**
    * Constructor used for password fields.
    */
-  public FormattedTextCellEditor(final JFormattedTextField _field,boolean required,final FormattedTextColumn column) {
+  public FormattedTextCellEditor(Grids grids,final JFormattedTextField _field,boolean required,final FormattedTextColumn column) {
 /*
     try {
       InvocationHandler handler = new InvocationHandler() {
@@ -84,6 +88,7 @@ public class FormattedTextCellEditor extends AbstractCellEditor implements Table
     }
 */
     //this.field = new JFormattedTextField( _field.getFormatter());
+    this.grids = grids;
     this.field = _field;
     this.required = required;
     field.addKeyListener(new KeyAdapter() {
@@ -180,6 +185,9 @@ public class FormattedTextCellEditor extends AbstractCellEditor implements Table
                                                boolean isSelected, int row,
                                                int column) {
 
+    if (defaultFont==null)
+      defaultFont = field.getFont();
+
     this.table = table;
     this.row = row;
     this.col = column;
@@ -194,6 +202,12 @@ public class FormattedTextCellEditor extends AbstractCellEditor implements Table
       field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      field.setFont(f);
+    else
+      field.setFont(defaultFont);
 
     return field;
   }

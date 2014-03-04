@@ -296,11 +296,13 @@ public class TextColumn extends Column {
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     if (isEncryptText())
       return new TextCellEditor(
+          grids,
           getMaxCharacters(),
           isColumnRequired()
       );
     else
       return new TextCellEditor(
+        grids,
         getMaxCharacters(),
         isColumnRequired(),
         isRpadding(),

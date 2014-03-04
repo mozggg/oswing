@@ -286,6 +286,7 @@ public class IntegerColumn extends Column {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new NumericCellEditor(
+        grids,
         Column.TYPE_INT,
         0,
         isColumnRequired(),

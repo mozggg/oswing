@@ -355,6 +355,7 @@ public class ComboColumn extends Column {
       DomainCellEditor editor = (DomainCellEditor)editors.get(tableContainer.toString());
       if (editor==null) {
         editor = new DomainCellEditor(
+            grids,
             domain,
             translateItemDescriptions,
             isColumnRequired(),

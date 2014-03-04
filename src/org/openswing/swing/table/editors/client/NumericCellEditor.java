@@ -8,6 +8,7 @@ import javax.swing.table.*;
 import org.openswing.swing.client.*;
 import org.openswing.swing.table.columns.client.*;
 import org.openswing.swing.util.client.*;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -61,6 +62,9 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
   /** flag used in grid to automatically select data in cell when editing cell; default value: ClientSettings.SELECT_DATA_IN_EDIT; <code>false</code>to do not select data stored cell; <code>true</code> to automatically select data already stored in cell */
   private boolean selectDataOnEdit = ClientSettings.SELECT_DATA_IN_EDITABLE_GRID;
 
+  /** table hook */
+  private Grids grids = null;
+
 
   /**
    * Constructor.
@@ -70,8 +74,9 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
    * @param dynamicSettings dynamic settings used to reset numeric editor properties for each grid row
    * @param maxCharacters dynamic settings used to control the numbers of characteres when you are typing
    */
-  public NumericCellEditor(int colType, int decimals, boolean required, double minValue, double maxValue,
+  public NumericCellEditor(Grids grids,int colType, int decimals, boolean required, double minValue, double maxValue,
                            IntegerColumnSettings dynamicSettings,boolean selectDataOnEdit,int maxCharacters) {
+    this.grids = grids;
     field = new NumericControl() {
 
       public boolean processKeyBinding(KeyStroke ks, KeyEvent e,
@@ -124,6 +129,15 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
       c.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      c.setBorder(new CompoundBorder(new RequiredBorder(),c.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,
+        table.getModel().getColumnName(table.convertColumnIndexToModel(column)),
+        value, defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+
     return c;
   }
 
@@ -164,6 +178,8 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
    * Prepare the editor for a value.
    */
   private Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     if (row!=-1 && dynamicSettings!=null) {
       if (dynamicSettings instanceof DecimalColumnSettings)
         field.setDecimals(((DecimalColumnSettings)dynamicSettings).getDecimals(row));
@@ -173,6 +189,7 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
     if(value!=null && value.getClass().getSuperclass() == Number.class) {
       field.setText(((Number)value).toString());
       if (selectDataOnEdit)
+        //field.select(0,field.getText().length());
         field.selectAll();
     }
     else

@@ -46,6 +46,8 @@ import org.openswing.swing.util.client.*;
  */
 public class ComboBoxVOCellEditor extends AbstractCellEditor implements TableCellEditor,ItemsParent {
 
+  /** table hook */
+  private Grids grids = null;
 
   /** table */
   private JTable table = null;
@@ -153,6 +155,7 @@ public class ComboBoxVOCellEditor extends AbstractCellEditor implements TableCel
    * @param required flag sed to set mandatory property of the cell
    */
   public ComboBoxVOCellEditor(
+      Grids grids,
       ItemsMapper itemsMapper,
       ItemsDataLocator itemsDataLocator,
       String attributeName,
@@ -167,6 +170,7 @@ public class ComboBoxVOCellEditor extends AbstractCellEditor implements TableCel
       int leftMargin,int rightMargin,int topMargin,int bottomMargin,
       ComponentOrientation orientation
   ) {
+    this.grids = grids;
     this.itemsMapper = itemsMapper;
     this.itemsDataLocator = itemsDataLocator;
     this.attributeName = attributeName;
@@ -280,6 +284,8 @@ public class ComboBoxVOCellEditor extends AbstractCellEditor implements TableCel
    * Prepare the editor for a value.
    */
   private final Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     if (value==null)
       field.setSelectedIndex(-1);
     if (getFKAttributeName()!=null) {
@@ -323,7 +329,12 @@ public class ComboBoxVOCellEditor extends AbstractCellEditor implements TableCel
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
 
-    _prepareEditor(value);
+    Component c = _prepareEditor(value);
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
 
     return p;
   }

@@ -80,6 +80,7 @@ public class PercentageColumn extends DecimalColumn {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new NumericCellEditor(
+        grids,
         Column.TYPE_PERC,
         getDecimals(),
         isColumnRequired(),

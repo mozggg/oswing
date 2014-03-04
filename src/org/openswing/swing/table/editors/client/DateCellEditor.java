@@ -10,6 +10,7 @@ import javax.swing.table.*;
 import org.openswing.swing.client.*;
 import org.openswing.swing.util.client.*;
 import org.openswing.swing.table.columns.client.Column;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -41,6 +42,9 @@ import org.openswing.swing.table.columns.client.Column;
  * @version 1.0
  */
 public class DateCellEditor extends AbstractCellEditor implements TableCellEditor {
+
+  /** table hook */
+  private Grids grids = null;
 
   /** date input field: it contains a date editor + calendar button */
   private DateControl field = new DateControl() {
@@ -79,7 +83,8 @@ public class DateCellEditor extends AbstractCellEditor implements TableCellEdito
    * @param columnType column type; possible values: Column.TYPE_DATE, Column.TYPE_TIME, Column.TYPE_DATE_TIME
    * @param defaultDate optional default date to set in calendar when opening it and no date has been still set
    */
-  public DateCellEditor(boolean required,int columnType,int format,String timeFormat,ArrayList dateListeners,Calendar defaultDate, boolean strictUsage) {
+  public DateCellEditor(Grids grids,boolean required,int columnType,int format,String timeFormat,ArrayList dateListeners,Calendar defaultDate, boolean strictUsage) {
+    this.grids = grids;
     this.required = required;
     this.dateListeners = dateListeners;
     field.setDateType(columnType);
@@ -153,6 +158,8 @@ public class DateCellEditor extends AbstractCellEditor implements TableCellEdito
    * Prepare the editor for a value.
    */
   private Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     if (value!=null && value instanceof Date) {
       field.setDate((Date)value);
     } else {
@@ -181,6 +188,14 @@ public class DateCellEditor extends AbstractCellEditor implements TableCellEdito
       field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
+    java.awt.Font f = grids.getGridController().getFont(row,
+        table.getModel().getColumnName(table.convertColumnIndexToModel(column)),
+        value, defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+
     return c;
   }
 

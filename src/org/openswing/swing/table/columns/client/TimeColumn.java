@@ -170,7 +170,7 @@ public class TimeColumn extends Column {
    * @return TableCellEditor for this column
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
-    return new DateCellEditor(isColumnRequired(),Column.TYPE_TIME,Resources.DMY,timeFormat,getDateListeners(),null,strictUsage);
+    return new DateCellEditor(grids, isColumnRequired(),Column.TYPE_TIME,Resources.DMY,timeFormat,getDateListeners(),null,strictUsage);
   }
 
 

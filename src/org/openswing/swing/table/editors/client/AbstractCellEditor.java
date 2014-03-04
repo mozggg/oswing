@@ -1,7 +1,6 @@
 package org.openswing.swing.table.editors.client;
 
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -38,6 +37,9 @@ public class AbstractCellEditor implements CellEditor {
 
   /** listeners registered into this cell editor */
   protected EventListenerList listenerList = new EventListenerList();
+
+  /** default font */
+  protected java.awt.Font defaultFont = null;
 
 
   /**

@@ -571,6 +571,7 @@ public class ComboVOColumn extends Column {
     ComboBoxVOCellEditor editor = (ComboBoxVOCellEditor)editors.get(tableContainer.toString());
     if (editor==null) {
       editor = new ComboBoxVOCellEditor(
+        grids,
         getItemsMapper(),
         getComboDataLocator(),
         getColumnName(),

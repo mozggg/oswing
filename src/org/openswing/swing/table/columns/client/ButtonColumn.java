@@ -179,6 +179,7 @@ public class ButtonColumn extends Column {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new ButtonCellEditor(
+      grids,
       getText(),
       isShowAttributeValue(),
       getActionListeners(),

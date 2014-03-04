@@ -170,6 +170,8 @@ public class CheckBoxCellEditor extends AbstractCellEditor implements TableCellE
    * Prepare the editor for a value.
    */
   private final Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = label.getFont();
     if (value==null) {
       if (allowNullValue)
         selected = null;
@@ -220,7 +222,13 @@ public class CheckBoxCellEditor extends AbstractCellEditor implements TableCellE
     label.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth(),table.getHeight()));
     label.setOpaque(false);
 //    label.setBackground(table.getBackground());
-    return _prepareEditor(value);
+    Component c = _prepareEditor(value);
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+    return c;
   }
 
 

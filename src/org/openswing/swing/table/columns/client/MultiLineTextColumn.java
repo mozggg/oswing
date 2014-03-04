@@ -213,6 +213,7 @@ public class MultiLineTextColumn extends Column {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new MultiLineTextCellEditor(
+      grids,
       getMaxCharacters(),
       isColumnRequired(),
       selectDataOnEdit,

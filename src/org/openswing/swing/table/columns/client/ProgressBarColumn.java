@@ -194,6 +194,7 @@ public class ProgressBarColumn extends Column {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new TextCellEditor(
+        grids,
         0,
         false
     );

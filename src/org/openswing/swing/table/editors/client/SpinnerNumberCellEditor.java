@@ -9,6 +9,7 @@ import org.openswing.swing.client.*;
 import org.openswing.swing.util.client.*;
 import java.util.ArrayList;
 import javax.swing.event.ChangeListener;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -40,6 +41,9 @@ import javax.swing.event.ChangeListener;
  * @version 1.0
  */
 public class SpinnerNumberCellEditor extends AbstractCellEditor implements TableCellEditor {
+
+  /** table hook */
+  private Grids grids = null;
 
   /** maximum value */
   private Double maxValue = new Double(Integer.MAX_VALUE);
@@ -100,7 +104,8 @@ public class SpinnerNumberCellEditor extends AbstractCellEditor implements Table
   private ArrayList changeListeners = null;
 
 
-  public SpinnerNumberCellEditor(boolean required,
+  public SpinnerNumberCellEditor(Grids grids,
+                                 boolean required,
                                  int textOrientation,
                                  ArrayList changeListeners,
                                  Double maxValue,
@@ -108,6 +113,7 @@ public class SpinnerNumberCellEditor extends AbstractCellEditor implements Table
                                  Double initialValue,
                                  Double step,
                                  ComponentOrientation orientation) {
+    this.grids = grids;
     this.required = required;
     this.maxValue = maxValue;
     this.minValue = minValue;
@@ -186,6 +192,9 @@ public class SpinnerNumberCellEditor extends AbstractCellEditor implements Table
                                                boolean isSelected, int row,
                                                int column) {
 
+    if (defaultFont==null)
+      defaultFont = field.getFont();
+
     this.table = table;
     this.row = row;
     this.col = column;
@@ -196,6 +205,15 @@ public class SpinnerNumberCellEditor extends AbstractCellEditor implements Table
       field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,
+        table.getModel().getColumnName(table.convertColumnIndexToModel(column)),
+        value, defaultFont);
+    if (f != null)
+      field.setFont(f);
+    else
+      field.setFont(defaultFont);
+
 
     return field;
   }

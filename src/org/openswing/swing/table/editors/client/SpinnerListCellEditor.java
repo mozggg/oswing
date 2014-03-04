@@ -12,6 +12,7 @@ import org.openswing.swing.client.SpinnerListControl;
 import org.openswing.swing.domains.java.*;
 import javax.swing.event.ChangeListener;
 import org.openswing.swing.logger.client.Logger;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -98,13 +99,18 @@ public class SpinnerListCellEditor extends AbstractCellEditor implements TableCe
   /** define if description in combo items must be translated */
   private boolean translateItemDescriptions;
 
+  /** table hook */
+  private Grids grids = null;
 
-  public SpinnerListCellEditor(boolean required,
+
+  public SpinnerListCellEditor(Grids grids,
+                               boolean required,
                                int textOrientation,
                                ArrayList changeListeners,
                                boolean translateItemDescriptions,
                                Domain domain,
                                ComponentOrientation orientation) {
+    this.grids = grids;
     this.domain = domain;
     this.translateItemDescriptions = translateItemDescriptions;
     this.required = required;
@@ -237,6 +243,8 @@ public class SpinnerListCellEditor extends AbstractCellEditor implements TableCe
   public Component getTableCellEditorComponent(JTable table, Object value,
                                                boolean isSelected, int row,
                                                int column) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
 
     this.table = table;
     this.row = row;
@@ -248,6 +256,12 @@ public class SpinnerListCellEditor extends AbstractCellEditor implements TableCe
       field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      field.setFont(f);
+    else
+      field.setFont(defaultFont);
 
     return field;
   }

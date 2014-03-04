@@ -7,6 +7,7 @@ import javax.swing.table.*;
 
 import org.openswing.swing.client.*;
 import org.openswing.swing.util.client.*;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -38,6 +39,9 @@ import org.openswing.swing.util.client.*;
  * @version 1.0
  */
 public class MultiLineTextCellEditor extends AbstractCellEditor implements TableCellEditor {
+
+  /** table hook */
+  private Grids grids = null;
 
   /** multi line text input field */
   private TextAreaControl field = new TextAreaControl() {
@@ -83,7 +87,8 @@ public class MultiLineTextCellEditor extends AbstractCellEditor implements Table
   private boolean selectDataOnEdit = ClientSettings.SELECT_DATA_IN_EDITABLE_GRID;
 
 
-  public MultiLineTextCellEditor(int maxCharacters,boolean required,boolean selectDataOnEdit,ComponentOrientation orientation) {
+  public MultiLineTextCellEditor(Grids grids,int maxCharacters,boolean required,boolean selectDataOnEdit,ComponentOrientation orientation) {
+    this.grids = grids;
     this.required = required;
     this.maxCharacters = maxCharacters;
     this.selectDataOnEdit = selectDataOnEdit;
@@ -187,6 +192,9 @@ public class MultiLineTextCellEditor extends AbstractCellEditor implements Table
                                                boolean isSelected, int row,
                                                int column) {
 
+    if (defaultFont==null)
+      defaultFont = field.getFont();
+
     this.table = table;
     this.row = row;
     this.col = column;
@@ -200,6 +208,12 @@ public class MultiLineTextCellEditor extends AbstractCellEditor implements Table
       field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      field.setFont(f);
+    else
+      field.setFont(defaultFont);
 
     return field;
   }

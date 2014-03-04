@@ -9,6 +9,7 @@ import javax.swing.table.*;
 
 import org.openswing.swing.util.client.*;
 import javax.swing.border.Border;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -59,13 +60,17 @@ public class ButtonCellEditor extends AbstractCellEditor implements TableCellEdi
   /** current selected row*/
   private int row = -1;
 
+  /** table hook */
+  private Grids grids = null;
+
 
   /**
    * Constructor.
    * @param text button text
    * @param actionListeners list of ActionListeners linked to the button
    */
-  public ButtonCellEditor(String text,boolean showAttributeValue,ArrayList actionListeners,Icon icon,Border buttonBorder) {
+  public ButtonCellEditor(Grids grids,String text,boolean showAttributeValue,ArrayList actionListeners,Icon icon,Border buttonBorder) {
+    this.grids = grids;
     this.showAttributeValue = showAttributeValue;
     if (!showAttributeValue)
       this.field.setText(ClientSettings.getInstance().getResources().getResource(text));
@@ -114,6 +119,8 @@ public class ButtonCellEditor extends AbstractCellEditor implements TableCellEdi
    * Prepare the editor for a value.
    */
   private final Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     this.value = value;
     if (showAttributeValue) {
       if (value!=null && value instanceof byte[])
@@ -136,7 +143,13 @@ public class ButtonCellEditor extends AbstractCellEditor implements TableCellEdi
                                                int column) {
     this.table = table;
     this.row = row;
-    return _prepareEditor(value);
+    Component c = _prepareEditor(value);
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+    return c;
   }
 
 

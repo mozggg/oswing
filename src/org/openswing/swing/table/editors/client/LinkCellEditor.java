@@ -123,6 +123,8 @@ public class LinkCellEditor extends AbstractCellEditor implements TableCellEdito
    * Prepare the editor for a value.
    */
   private final Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     this.value = value;
     if (value!=null)
       field.setText(value.toString());
@@ -169,7 +171,13 @@ public class LinkCellEditor extends AbstractCellEditor implements TableCellEdito
     field.setLabel( (String)((Grid)table).getVOListTableModel().getField(row,labelAttributeName) );
     field.setUri( (String)((Grid)table).getVOListTableModel().getField(row,uriAttributeName) );
     field.linkClicked();
-    return _prepareEditor(value);
+    Component c = _prepareEditor(value);
+    java.awt.Font f = gridController.getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+    return c;
   }
 
 

@@ -474,6 +474,7 @@ public class FormattedTextColumn extends Column {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new FormattedTextCellEditor(
+      grids,
       getTextBox(),
       isColumnRequired(),
       this

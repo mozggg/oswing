@@ -1685,6 +1685,7 @@ public class Grids extends JPanel implements VOListTableModelListener,DataContro
 
       if (gridControl!=null &&
           !gridControl.isOrderWithLoadData() &&
+          getLastIndex() >= 0 &&  //fix!
           getLastIndex()-getVOListTableModel().getRowCount()<=0 &&
           !isMoreRows() &&
           getQuickFilterValues().size()==0

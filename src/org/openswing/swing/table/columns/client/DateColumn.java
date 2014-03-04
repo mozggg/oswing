@@ -279,7 +279,7 @@ public class DateColumn extends Column {
    * @return TableCellEditor for this column
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
-    return new DateCellEditor(isColumnRequired(),Column.TYPE_DATE,getFormat(),null,getDateListeners(),defaultDate,strictUsage);
+    return new DateCellEditor(grids,isColumnRequired(),Column.TYPE_DATE,getFormat(),null,getDateListeners(),defaultDate,strictUsage);
   }
 
 

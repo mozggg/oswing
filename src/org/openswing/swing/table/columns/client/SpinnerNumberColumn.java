@@ -327,6 +327,7 @@ public class SpinnerNumberColumn extends Column {
     SpinnerNumberCellEditor editor = (SpinnerNumberCellEditor)editors.get(tableContainer.toString());
     if (editor==null) {
       editor = new SpinnerNumberCellEditor(
+          grids,
           isColumnRequired(),
           getTextAlignment(),
           getChangeListeners(),

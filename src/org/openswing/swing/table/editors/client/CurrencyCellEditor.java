@@ -8,6 +8,7 @@ import javax.swing.table.*;
 import org.openswing.swing.client.*;
 import org.openswing.swing.table.columns.client.*;
 import org.openswing.swing.util.client.*;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -40,6 +41,9 @@ import org.openswing.swing.util.client.*;
  */
 public class CurrencyCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+  /** table hook */
+  private Grids grids = null;
+
   /** flag used to set mandatory property of the cell */
   private boolean required;
 
@@ -71,7 +75,8 @@ public class CurrencyCellEditor extends AbstractCellEditor implements TableCellE
    * @param currencySymbol currency symbol
    * @param dynamicSettings dynamic settings (object of type CurrencyColumnSettings) used to reset currency editor properties for each grid row
    */
-  public CurrencyCellEditor(int colType, int decimals, boolean required, boolean currencySymbolOnLeft, double minValue, double maxValue,String currencySymbol,IntegerColumnSettings dynamicSettings,boolean selectDataOnEdit) {
+  public CurrencyCellEditor(Grids grid,int colType, int decimals, boolean required, boolean currencySymbolOnLeft, double minValue, double maxValue,String currencySymbol,IntegerColumnSettings dynamicSettings,boolean selectDataOnEdit) {
+    this.grids = grids;
     field = new CurrencyControl() {
 
         public boolean processKeyBinding(KeyStroke ks, KeyEvent e,
@@ -126,6 +131,15 @@ public class CurrencyCellEditor extends AbstractCellEditor implements TableCellE
       c.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      c.setBorder(new CompoundBorder(new RequiredBorder(),c.getBorder()));
     }
+
+    java.awt.Font f = grids.getGridController().getFont(row,
+        table.getModel().getColumnName(table.convertColumnIndexToModel(column)),
+        value, defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+
     return c;
   }
 
@@ -166,6 +180,8 @@ public class CurrencyCellEditor extends AbstractCellEditor implements TableCellE
    * Prepare the editor for a value.
    */
   private Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     if (row!=-1 && dynamicSettings!=null) {
       if (dynamicSettings instanceof DecimalColumnSettings)
         field.setDecimals(((DecimalColumnSettings)dynamicSettings).getDecimals(row));

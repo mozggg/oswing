@@ -506,6 +506,7 @@ public class CodLookupColumn extends Column {
       return null;
     }
     return new CodLookupCellEditor(
+        grids,
         getMaxCharacters(),
         getLookupController(),
         isColumnRequired(),

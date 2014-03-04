@@ -376,4 +376,10 @@ public class GridFrameController extends GridController implements GridDataLocat
   }
 
 
+  public Font getFont(int row,String attributeName,Object value,Font defaultFont) {
+      return new Font(defaultFont.getFontName(),Font.BOLD,defaultFont.getSize());
+  }
+
+
+
 }

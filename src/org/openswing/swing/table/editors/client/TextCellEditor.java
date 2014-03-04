@@ -7,6 +7,7 @@ import javax.swing.table.*;
 
 import org.openswing.swing.client.*;
 import org.openswing.swing.util.client.*;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -89,19 +90,24 @@ public class TextCellEditor extends AbstractCellEditor implements TableCellEdito
   /** flag used in grid to automatically select data in cell when editing cell; default value: ClientSettings.SELECT_DATA_IN_EDIT; <code>false</code>to do not select data stored cell; <code>true</code> to automatically select data already stored in cell */
   private boolean selectDataOnEdit = ClientSettings.SELECT_DATA_IN_EDITABLE_GRID;
 
+  /** table hook */
+  private Grids grids = null;
+
 
   /**
    * Constructor used for password fields.
    */
-  public TextCellEditor(int maxCharacters,boolean required) {
+  public TextCellEditor(Grids grids,int maxCharacters,boolean required) {
+    this.grids = grids;
     this.required = required;
     this.maxCharacters = maxCharacters;
     this.encryptText = true;
   }
 
 
-  public TextCellEditor(int maxCharacters,boolean required,boolean rPadding,boolean trimText,boolean upperCase,
+  public TextCellEditor(Grids grids,int maxCharacters,boolean required,boolean rPadding,boolean trimText,boolean upperCase,
                         boolean selectDataOnEdit,ComponentOrientation orientation) {
+    this.grids = grids;
     this.required = required;
     this.maxCharacters = maxCharacters;
     this.selectDataOnEdit = selectDataOnEdit;
@@ -179,6 +185,9 @@ public class TextCellEditor extends AbstractCellEditor implements TableCellEdito
                                                boolean isSelected, int row,
                                                int column) {
 
+    if (defaultFont==null)
+      defaultFont = field.getFont();
+
     this.table = table;
     this.row = row;
     this.col = column;
@@ -193,6 +202,12 @@ public class TextCellEditor extends AbstractCellEditor implements TableCellEdito
         field.setBorder(BorderFactory.createLineBorder(ClientSettings.GRID_REQUIRED_CELL_BORDER));
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
       }
+
+      java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+      if (f != null)
+        field.setFont(f);
+      else
+        field.setFont(defaultFont);
 
       return field;
     }

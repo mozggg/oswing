@@ -54,6 +54,9 @@ public class CodLookupCellEditor extends AbstractCellEditor implements TableCell
   /** lookup button */
   private JButton lookupButton = new JButton("...");
 
+  /** table hook */
+  private Grids grids = null;
+
   /** "+" button, used to call the controller class, related to the code registry */
   private JButton plusButton = new JButton() {
     public void paint(Graphics g) {
@@ -155,6 +158,7 @@ public class CodLookupCellEditor extends AbstractCellEditor implements TableCell
    * @param codAttributeName attribute name linked to the code
    */
   public CodLookupCellEditor(
+      Grids grids,
       int maxCharacters,
       LookupController lookupController,
       boolean required,
@@ -168,6 +172,7 @@ public class CodLookupCellEditor extends AbstractCellEditor implements TableCell
       String codAttributeName,
       ComponentOrientation orientation,
       boolean selectDataOnEdit) {
+    this.grids = grids;
     this.lookupController = lookupController;
     this.required = required;
     this.numericValue = numericValue;
@@ -584,6 +589,14 @@ public class CodLookupCellEditor extends AbstractCellEditor implements TableCell
         codBox.requestFocus();
       }
     }.start();
+
+
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
+
     return c;
   }
 

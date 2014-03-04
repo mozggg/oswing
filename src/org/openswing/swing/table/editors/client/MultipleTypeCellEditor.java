@@ -123,7 +123,9 @@ public class MultipleTypeCellEditor extends AbstractCellEditor implements TableC
    * Prepare the editor for a value.
    */
   private final InputControl _prepareEditor() {
+
     InputControl ic = typeController.getAdditionalProperties(row,attributeName,grid);
+
     if (ic!=null) {
       return ic;
     }
@@ -185,6 +187,11 @@ public class MultipleTypeCellEditor extends AbstractCellEditor implements TableC
         p.add((JComponent)ic,      new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0
               ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0));
 
+      java.awt.Font f = gridController.getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+      if (f != null)
+        ((JComponent)ic).setFont(f);
+      else
+        ((JComponent)ic).setFont(defaultFont);
 
     return p;
   }

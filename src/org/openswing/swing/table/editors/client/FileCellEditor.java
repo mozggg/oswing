@@ -47,6 +47,9 @@ import org.openswing.swing.util.java.Consts;
  */
 public class FileCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+  /** table hook */
+  private Grids grids = null;
+
   /** flag used to define if a file import button must be showed; default value: <code>true</code> */
   private boolean showUploadButton = true;
 
@@ -216,6 +219,9 @@ public class FileCellEditor extends AbstractCellEditor implements TableCellEdito
     upload.setOpaque(false);
     fileName.setOpaque(false);
 
+    if (defaultFont==null)
+      defaultFont = cell.getFont();
+
     upload.setEnabled(((Grid)table).getMode()!=Consts.READONLY);
 
 
@@ -302,6 +308,12 @@ public class FileCellEditor extends AbstractCellEditor implements TableCellEdito
       Object obj = ((Grid)table).getGrids().getVOListTableModel().getField(row,fileNameAttributeName);
       fileName.setText( obj==null?"":obj.toString() );
     }
+
+    java.awt.Font f = gridController.getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      cell.setFont(f);
+    else
+      cell.setFont(defaultFont);
 
     return cell;
   }

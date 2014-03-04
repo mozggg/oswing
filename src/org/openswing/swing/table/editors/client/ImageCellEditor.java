@@ -48,6 +48,9 @@ import java.beans.PropertyChangeEvent;
  */
 public class ImageCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+  /** table hook */
+  private Grids grids = null;
+
   /** button inside the editable cell */
   /** selection button; used to select an image file from local file system */
   private JButton selButton = new JButton() {
@@ -174,7 +177,12 @@ public class ImageCellEditor extends AbstractCellEditor implements TableCellEdit
 
   public final Component getTableCellEditorComponent(JTable table, Object value,
                                                boolean isSelected, int row,
+
                                                int column) {
+
+    if (defaultFont==null)
+     defaultFont = cell.getFont();
+
     this.table = table;
     this.row = row;
     this.col = column;

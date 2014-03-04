@@ -318,6 +318,7 @@ public class DecimalColumn extends Column {
    */
   public TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new NumericCellEditor(
+        grids,
         Column.TYPE_DEC,
         getDecimals(),
         isColumnRequired(),

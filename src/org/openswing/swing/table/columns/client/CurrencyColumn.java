@@ -124,6 +124,7 @@ public class CurrencyColumn extends DecimalColumn {
    */
   public final TableCellEditor getCellEditor(GridController tableContainer,Grids grids) {
     return new CurrencyCellEditor(
+        grids,
         Column.TYPE_CURRENCY,
         getDecimals(),
         isColumnRequired(),

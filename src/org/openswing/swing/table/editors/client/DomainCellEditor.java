@@ -11,6 +11,7 @@ import org.openswing.swing.domains.java.*;
 import org.openswing.swing.util.client.*;
 import org.openswing.swing.table.client.Grid;
 import org.openswing.swing.util.java.Consts;
+import org.openswing.swing.table.client.Grids;
 
 
 /**
@@ -43,6 +44,8 @@ import org.openswing.swing.util.java.Consts;
  */
 public class DomainCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+  /** table hook */
+  private Grids grids = null;
 
   /** table */
   private JTable table = null;
@@ -123,8 +126,9 @@ public class DomainCellEditor extends AbstractCellEditor implements TableCellEdi
    * @param translateItemDescriptions define if description in combo items must be translated
    * @param required flag sed to set mandatory property of the cell
    */
-  public DomainCellEditor(Domain domain,boolean translateItemDescriptions,boolean required,
+  public DomainCellEditor(Grids grids,Domain domain,boolean translateItemDescriptions,boolean required,
                           ComponentOrientation orientation,ArrayList itemListeners) {
+    this.grids = grids;
     this.domain = domain;
     this.translateItemDescriptions = translateItemDescriptions;
     this.required = required;
@@ -216,6 +220,8 @@ public class DomainCellEditor extends AbstractCellEditor implements TableCellEdi
    * Prepare the editor for a value.
    */
   private final Component _prepareEditor(Object value) {
+    if (defaultFont==null)
+      defaultFont = field.getFont();
     DomainPair pair = domain.getDomainPair(value);
     if (pair!=null) {
       for(int i=0;i<pairs.length;i++)
@@ -258,7 +264,12 @@ public class DomainCellEditor extends AbstractCellEditor implements TableCellEdi
 //      field.setBorder(new CompoundBorder(new RequiredBorder(),field.getBorder()));
     }
 
-    _prepareEditor(value);
+    Component c = _prepareEditor(value);
+    java.awt.Font f = grids.getGridController().getFont(row,table.getModel().getColumnName(table.convertColumnIndexToModel(column)),value,defaultFont);
+    if (f != null)
+      c.setFont(f);
+    else
+      c.setFont(defaultFont);
 
     return p;
   }
