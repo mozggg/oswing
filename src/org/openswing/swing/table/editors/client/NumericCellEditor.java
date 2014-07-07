@@ -100,6 +100,9 @@ public class NumericCellEditor extends AbstractCellEditor implements TableCellEd
     field.addKeyListener(new KeyAdapter() {
 
       public void keyPressed(KeyEvent e) {
+		if ( e.getKeyCode()==e.VK_DOWN || e.getKeyCode()==e.VK_UP ) {
+			stopCellEditing();
+		}
         if (e.getKeyCode()==e.VK_TAB) {
           stopCellEditing();
           table.requestFocus();
