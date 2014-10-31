@@ -155,6 +155,7 @@ public class SearchWindowManager {
       Point location = getSearchWindowLocation();
       if (location != null)
         searchWindow.setLocation(location.x, location.y);
+	  searchWindow.setAlwaysOnTop(true);
       searchWindow.setVisible(true);
 
       if (e.getKeyCode() != KeyEvent.VK_ENTER && e.getKeyCode() != e.VK_ESCAPE) {
